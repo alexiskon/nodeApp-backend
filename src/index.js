@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 require('./db/mongoose') //load in the database
 //load the models
 const User = require('./models/user')
@@ -13,6 +14,7 @@ app.use(express.json()) //auto parse incoming json to object
 //load the routes
 app.use(usersRouter)
 app.use(tasksRouter)
+app.use(cors)
 
 const port = process.env.PORT || 3000 //port cofiguration
 
