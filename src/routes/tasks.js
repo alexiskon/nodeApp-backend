@@ -57,6 +57,7 @@ router.get('/tasks', async (req, res) => {
 
     console.log(match, l, s)
     try {
+        const tasks = await Tasks.find(match).limit(l).skip(s).sort(sorting)
         res.send(tasks)
     } catch (e) {
         res.status(500).send(e)
@@ -71,6 +72,7 @@ router.get('/tasks/:id', async (req, res) => {
         if (!task) {
             return res.status(404).send()
         }
+
 
         res.send(task)
     } catch (e) {
