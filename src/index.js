@@ -6,23 +6,23 @@ require('./db/mongoose') //load in the database
 const User = require('./models/user')
 const tasks = require('./models/tasks')
 //
-const tasksRouter = require('./routes/tasks')
-const usersRouter = require('./routes/users')
-
 
 const app = express()
 app.all('*', function(req, res, next) {
-    console.log(1)
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
   });
+
 app.use(express.json()) //auto parse incoming json to object
+
 //load the routes
+const tasksRouter = require('./routes/tasks')
+const usersRouter = require('./routes/users')
+
 app.use(usersRouter)
 app.use(tasksRouter)
-
 
 const port = process.env.PORT || 3000 //port cofiguration
 
