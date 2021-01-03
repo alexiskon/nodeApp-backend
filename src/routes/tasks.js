@@ -1,9 +1,13 @@
 const express = require('express')
-const { update } = require('../models/tasks')
+const {
+    update
+} = require('../models/tasks')
 const router = new express.Router()
 const auth = require('../middleware/auth')
 const Tasks = require('../models/tasks')
-const { query } = require('express')
+const {
+    query
+} = require('express')
 
 //-----------------tasks-----------------------//
 
@@ -12,6 +16,11 @@ router.post('/tasks', async (req, res) => {
     try {
         const task = new Tasks(req.body) //mongoose auto handles promises
         await task.save()
+        res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/tasks');
+        res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Authorization');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+
         res.status(201).send(task)
     } catch (e) {
         res.status(400).send(e)
@@ -54,6 +63,11 @@ router.get('/tasks', async (req, res) => {
     console.log(match, l, s)
     try {
         const tasks = await Tasks.find(match).limit(l).skip(s).sort(sorting)
+        res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io');
+        res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Authorization');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+
         res.send(tasks)
     } catch (e) {
         res.status(500).send(e)
@@ -68,7 +82,12 @@ router.get('/tasks/:id', async (req, res) => {
         if (!task) {
             return res.status(404).send()
         }
-        res.send(task)  
+        res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io');
+        res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Authorization');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+        res.send(task)
     } catch (e) {
         res.status(404).send(e)
     }
@@ -86,7 +105,7 @@ router.patch('/tasks/:id', async (req, res) => {
             task[update] = req.body[update]
         })
         await task.save()
-        
+
         if (!task) {
             return res.status(404).send()
         }

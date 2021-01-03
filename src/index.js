@@ -2,17 +2,14 @@ const express = require('express')
 const cors = require('cors')
 
 const app = express()
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io');
-    res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/users/me');
-    res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/home');
-    res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/users/login');
-    res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Authorization');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+// var allowCrossDomain = function(req, res, next) {
+//     res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io');
+//     res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
+//     res.header('Access-Control-Allow-Headers', 'Authorization');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type');
 
-    next();
-}
+//     next();
+// }
 app.use(allowCrossDomain)
 require('./db/mongoose') //load in the database
 //load the models
