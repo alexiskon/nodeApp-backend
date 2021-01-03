@@ -12,15 +12,8 @@ router.post('/users', async (req, res) => {
         const user = new User(req.body) //mongoose auto handles promises
         await user.save()
         const token = await user.generateAuthToken()
-        res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/users');
-        res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Authorization');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-
-        res.status(201).send({
-            user: user.getPublicProfile(),
-            token
-        })
+        
+        res.status(201).send({user: user.getPublicProfile(), token})
     } catch (e) {
         res.status(400).send(e)
     }
@@ -28,11 +21,6 @@ router.post('/users', async (req, res) => {
 
 //get user
 router.get('/users/me', auth, async (req, res) => {
-    res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/users/me');
-    res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Authorization');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-
     res.send(req.user)
 })
 
@@ -44,11 +32,6 @@ router.get('/users/:id', async (req, res) => {
         if (!user) {
             return res.status(404).send()
         }
-        res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/users/:id');
-        res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Authorization');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-
         res.send(user.getPublicProfile())
     } catch (e) {
         res.status(500).send(e)
@@ -66,11 +49,6 @@ router.patch('/users/me', auth, async (req, res) => {
             req.user[update] = req.body[update]
         })
         await req.user.save()
-        
-        res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/users/me');
-        res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Authorization');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
 
         res.send(req.user.getPublicProfile())
     } catch (e) {
@@ -86,11 +64,6 @@ router.delete('/users/me', auth, async (req, res) => {
         if (!user) {
             return res.status(404).send()
         }
-        res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/users/me');
-        res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Authorization');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-
         res.send(user.getPublicProfile())
     } catch (e) {
         res.status(500).send()
@@ -102,15 +75,7 @@ router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
-        res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/users/login');
-        res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Authorization');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-
-        res.send({
-            user: user.getPublicProfile(),
-            token
-        })
+        res.send({user: user.getPublicProfile(), token})
     } catch (e) {
         res.status(400).send(e)
     }
@@ -123,11 +88,6 @@ router.post('/users/logout', auth, async (req, res) => {
             return token.token !== req.token
         })
         await req.user.save()
-        res.header('Access-Control-Allow-Origin', 'https://alexiskon.github.io/users/logout');
-        res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Authorization');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-
         res.send()
     } catch (e) {
         res.status(500).send(e)
