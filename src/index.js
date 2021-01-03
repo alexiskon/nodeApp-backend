@@ -15,7 +15,12 @@ app.use(express.json()) //auto parse incoming json to object
 app.use(usersRouter)
 app.use(tasksRouter)
 app.use(cors())
-app.options('*', cors());
+
+app.all('*', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+})
 
 const port = process.env.PORT || 3000 //port cofiguration
 
