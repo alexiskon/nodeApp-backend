@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+
 require('./db/mongoose') //load in the database
 //load the models
 const User = require('./models/user')
@@ -10,14 +11,19 @@ const usersRouter = require('./routes/users')
 
 
 const app = express()
+app.all('*', function(req, res, next) {
+    console.log(1)
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
 app.use(express.json()) //auto parse incoming json to object
 //load the routes
 app.use(usersRouter)
 app.use(tasksRouter)
-app.use(cors({
-    origin: ['https://alexiskon.github.io/'],
-    credentials: true
-}));
+
+
 const port = process.env.PORT || 3000 //port cofiguration
 
 //Start the server
