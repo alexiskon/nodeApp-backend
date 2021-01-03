@@ -14,7 +14,7 @@ app.use(express.json()) //auto parse incoming json to object
 //load the routes
 app.use(usersRouter)
 app.use(tasksRouter)
-app.use(cors())
+app.use(cors({ origin: true }))
 
 const port = process.env.PORT || 3000 //port cofiguration
 
