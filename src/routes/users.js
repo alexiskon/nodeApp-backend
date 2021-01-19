@@ -84,7 +84,7 @@ router.post('/users/login', async (req, res) => {
 //logout
 router.post('/users/logout', auth, async (req, res) => {
     try {
-        req.user.tokens = req.user.tokens.filter((token) => {
+        req.user.token = req.user.token.filter((token) => {
             return token.token !== req.token
         })
         await req.user.save()
